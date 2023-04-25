@@ -1,38 +1,34 @@
 <template>
-  <Header />
-  <router-view />
+  <div data-navigation="container" class="i-top-header">
+    <div class="wrapper top-section">
+      <div class="hleft">
+        <a class="logo selfLogo"
+          ><img alt="logo" src="@/assets/images/logo.png"
+        /></a>
+      </div>
+      <div class="mnav_hb hide">
+        <div class="hamburger">
+          <span class="line"></span><span class="line"></span
+          ><span class="line"></span>
+        </div>
+      </div>
+      <nav class="hright dnav">
+        <ul>
+          <li><router-link to="/">HOME</router-link></li>
+          <li><router-link to="/about">About</router-link></li>
+          <li><router-link to="/myAccount">My Account</router-link></li>
+          <li><router-link to="/contact">CONTACT US</router-link></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 </template>
 <script>
-import Header from "@/components/HeaderComponent.vue";
 export default {
-  name: "APP",
-  components: {
-    Header,
-  },
+  name: "HeaderComponent",
 };
 </script>
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-/*
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-*/
+<style scoped>
 .i-top-header {
   height: 70px;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.46);
