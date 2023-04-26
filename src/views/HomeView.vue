@@ -533,9 +533,9 @@ ul {
   border: none;
   outline: none;
   background: #ec1c24;
-  -o-border-radius: 50%;
+  /*-o-border-radius: 50%;
   -ms-border-radius: 50%;
-  -moz-border-radius: 50%;
+  -moz-border-radius: 50%;*/
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.34);
   -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.34);
   -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.34);
@@ -637,7 +637,7 @@ nav ul {
 /* Positioning the navigation items inline */
 nav ul li {
   display: inline-block;
-  float: left;
+  /* float: left;*/
 }
 
 /* Styling the links */

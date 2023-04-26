@@ -38,6 +38,82 @@
             </div>
           </div>
           <div class="map-content-9">
+            <span class="text-success" v-if="contactId"
+              >Your message is submitted. Reference ID is {{ contactId }}</span
+            >
+            <form @submit="onSubmit">
+              <div class="twice">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="name"
+                  id="name"
+                  placeholder="Name"
+                  aria-invalid="true"
+                  v-model="name"
+                  :style="
+                    errors.name ? 'border-color:red;' : 'border-color:default;'
+                  "
+                />
+                <span class="text-danger" v-if="errors.name">{{
+                  errors.name
+                }}</span>
+              </div>
+              <div class="twice">
+                <input
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  id="email"
+                  placeholder="Email"
+                  v-model="email"
+                  :style="
+                    errors.email ? 'border-color:red;' : 'border-color:default;'
+                  "
+                />
+                <span class="text-danger" v-if="errors.email">{{
+                  errors.email
+                }}</span>
+              </div>
+              <div class="twice">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="subject"
+                  id="subject"
+                  placeholder="Subject"
+                  v-model="subject"
+                  :style="
+                    errors.subject
+                      ? 'border-color:red;'
+                      : 'border-color:default;'
+                  "
+                />
+                <span class="text-danger" v-if="errors.subject">{{
+                  errors.subject
+                }}</span>
+              </div>
+              <div class="twice">
+                <textarea
+                  name="message"
+                  class="form-control"
+                  id="message"
+                  placeholder="Message"
+                  v-model="message"
+                  :style="
+                    errors.message
+                      ? 'border-color:red;'
+                      : 'border-color:default;'
+                  "
+                ></textarea>
+                <span class="text-danger" v-if="errors.message">{{
+                  errors.message
+                }}</span>
+              </div>
+              <button type="submit" class="btn btn-contact">
+                Send Message
+              </button>
+            </form>
             <!--
           <span class="text-success" *ngIf="model.contactId">Your message is submitted. Reference ID is {{model.contactId}}</span>
           <form (ngSubmit)="contactForm.valid && saveMessage(contactForm)" #contactForm="ngForm">
@@ -78,8 +154,41 @@
   </section>
 </template>
 <script>
+import { useField, useForm } from "vee-validate";
+// eslint-disable-next-line
+import { object, string, number, boolean } from "yup";
+import { ref } from "vue";
 export default {
   name: "ContactView",
+  setup() {
+    const contactId = ref(false);
+    const validationSchema = object({
+      email: string().email().required("we need your email").min(4),
+      name: string().required("A cool name is required").min(3),
+      subject: string().required("A nice subject must be inserted").min(4),
+      message: string().required("Be nice with the messages").min(10),
+    });
+    const { handleSubmit, errors } = useForm({ validationSchema });
+
+    const onSubmit = handleSubmit((values) => {
+      contactId.value = "Que Vaina!";
+      console.log("onSubmit", values);
+    });
+
+    const { value: email } = useField("email");
+    const { value: name } = useField("name");
+    const { value: subject } = useField("subject");
+    const { value: message } = useField("message");
+    return {
+      contactId,
+      onSubmit,
+      email,
+      name,
+      subject,
+      message,
+      errors,
+    };
+  },
 };
 </script>
 <style scoped>
