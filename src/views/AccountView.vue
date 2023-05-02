@@ -81,9 +81,11 @@
 
   <div class="row mb-5">
     <div class="col">
-      <div class="">
-        <button class="btn btn-eazybank" routerLink="/dashboard">BACK</button>
-      </div>
+      <router-link to="/dashboard"
+        ><button class="btn btn-eazybank" routerLink="/dashboard">
+          BACK
+        </button></router-link
+      >
     </div>
   </div>
 </template>

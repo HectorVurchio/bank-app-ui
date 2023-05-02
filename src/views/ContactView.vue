@@ -114,39 +114,6 @@
                 Send Message
               </button>
             </form>
-            <!--
-          <span class="text-success" *ngIf="model.contactId">Your message is submitted. Reference ID is {{model.contactId}}</span>
-          <form (ngSubmit)="contactForm.valid && saveMessage(contactForm)" #contactForm="ngForm">
-            <div class="twice">
-              <input type="text" class="form-control" name="contactName" id="contactName" placeholder="Name" required
-                [(ngModel)]="model.contactName" #contactName="ngModel">
-              <span class="text-danger" *ngIf="(contactName.touched || contactForm.submitted) &&
-              contactName.errors?.['required']">Error : Name is required !</span>
-            </div>
-            <div class="twice">
-              <input type="email" class="form-control" name="contactEmail" id="contactEmail" placeholder="Email"
-                required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [(ngModel)]="model.contactEmail"
-                #contactEmail="ngModel">
-              <span class="text-danger" *ngIf="(contactEmail.touched || contactForm.submitted) &&
-                contactEmail.errors?.['required']">Error : Email is required !</span>
-              <span class="text-danger" *ngIf="(contactEmail.touched || contactForm.submitted) &&
-              contactEmail.errors?.['pattern']">Error : Please provide a valid email address !</span>
-            </div>
-            <div class="twice">
-              <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required
-                [(ngModel)]="model.subject" #subject="ngModel">
-              <span class="text-danger" *ngIf="(subject.touched || contactForm.submitted) &&
-              subject.errors?.['required']">Error : Subject is required !</span>
-            </div>
-            <div class="twice">
-              <textarea name="message" class="form-control" id="message" placeholder="Message" required
-                [(ngModel)]="model.message" #message="ngModel">></textarea>
-              <span class="text-danger" *ngIf="(message.touched || contactForm.submitted) &&
-            message.errors?.['required']">Error : Message is required !</span>
-            </div>
-            <button type="submit" class="btn btn-contact">Send Message</button>
-          </form>
-        -->
           </div>
         </div>
       </div>
