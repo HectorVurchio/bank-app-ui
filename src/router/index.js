@@ -33,42 +33,57 @@ const routes = [
     name: "dashboard",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/DashboardView.vue"),
+    meta: { requiresAuth: true },
   },
   {
     path: "/logout",
     name: "logout",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/LogoutView.vue"),
+    meta: { requiresAuth: true },
   },
   {
     path: "/myAccount",
     name: "myAccount",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AccountView.vue"),
+    meta: { requiresAuth: true },
   },
   {
     path: "/myBalance",
     name: "myBalance",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/BalanceView.vue"),
+    meta: { requiresAuth: true },
   },
   {
     path: "/myLoans",
     name: "myLoans",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/LoansView.vue"),
+    meta: { requiresAuth: true },
   },
   {
     path: "/myCards",
     name: "myCards",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/CardsView.vue"),
+    meta: { requiresAuth: true },
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const loggedIn = localStorage.getItem("user");
+
+  if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
+    next("/login");
+  }
+  next();
 });
 
 export default router;

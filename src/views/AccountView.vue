@@ -107,6 +107,17 @@ export default {
       },
     };
   },
+  created() {
+    const database = JSON.parse(localStorage.getItem("user"));
+    console.log(database);
+  },
+  computed: {
+    usery() {
+      const database = JSON.parse(localStorage.getItem("user"));
+      const individual = database.data;
+      return { name: individual.name, role: individual.role };
+    },
+  },
 };
 </script>
 <style scoped>

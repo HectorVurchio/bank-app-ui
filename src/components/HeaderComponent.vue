@@ -15,19 +15,27 @@
       <nav class="hright dnav">
         <ul>
           <li><router-link to="/">HOME</router-link></li>
-          <li><router-link to="/login">LOGIN</router-link></li>
+          <li><router-link v-if="!loggedIn" to="/login">LOGIN</router-link></li>
           <li><router-link to="/contact">CONTACT US</router-link></li>
           <li><router-link to="/notices">NOTICES</router-link></li>
-          <li><router-link to="/dashboard">DASHBOARD</router-link></li>
-          <li><router-link to="/logout">LOGOUT</router-link></li>
+          <li>
+            <router-link v-if="loggedIn" to="/dashboard">DASHBOARD</router-link>
+          </li>
+          <li>
+            <router-link v-if="loggedIn" to="/logout">LOGOUT</router-link>
+          </li>
         </ul>
       </nav>
     </div>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "HeaderComponent",
+  computed: {
+    ...mapGetters(["loggedIn"]),
+  },
 };
 </script>
 <style scoped>

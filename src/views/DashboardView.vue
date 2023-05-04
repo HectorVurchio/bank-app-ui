@@ -15,63 +15,68 @@
         <div class="row">
           <div class="col-xl-6 pr-xl-2">
             <div class="row">
-              <router-link to="myAccount"
-                ><div class="col-sm-6 pr-sm-2 statistics-grid">
+              <div class="col-sm-6 pr-sm-2 statistics-grid">
+                <router-link to="myAccount">
                   <div class="card card_border border-primary-top p-4">
-                    <i
+                    <fa
+                      icon="wallet"
+                      class="fa"
                       style="font-size: 3em; color: #343a40"
-                      class="fa fa-user-circle-o"
-                    >
-                    </i>
+                    />
+
                     <h3 class="text-dark number">Account</h3>
                     <p class="stat-text">View account details</p>
-                  </div>
-                </div></router-link
-              >
-              <router-link to="/myBalance"
-                ><div class="col-sm-6 pl-sm-2 statistics-grid">
+                  </div></router-link
+                >
+              </div>
+
+              <div class="col-sm-6 pl-sm-2 statistics-grid">
+                <router-link to="/myBalance">
                   <div class="card card_border border-primary-top p-4">
-                    <i style="font-size: 3em; color: #343a40" class="fa fa-usd">
-                    </i>
+                    <fa
+                      icon="dollar-sign"
+                      class="fa"
+                      style="font-size: 3em; color: #343a40"
+                    />
                     <h3 class="text-dark number">Balance</h3>
                     <p class="stat-text">View total available balance</p>
                   </div>
-                </div></router-link
-              >
+                </router-link>
+              </div>
             </div>
           </div>
           <div class="col-xl-6 pl-xl-2">
             <div class="row">
-              <router-link to="/myLoans"
-                ><div class="col-sm-6 pr-sm-2 statistics-grid">
+              <div class="col-sm-6 pr-sm-2 statistics-grid">
+                <router-link to="/myLoans">
                   <div class="card card_border border-primary-top p-4">
-                    <i
+                    <fa
+                      icon="money-bill"
+                      class="fa"
                       style="font-size: 3em; color: #343a40"
-                      class="fa fa-money"
-                    >
-                    </i>
+                    />
                     <h3 class="text-dark number">Loans</h3>
                     <p class="stat-text">View Loan Details</p>
                   </div>
-                </div></router-link
-              >
+                </router-link>
+              </div>
 
-              <router-link to="/myCards"
-                ><div class="col-sm-6 pl-sm-2 statistics-grid">
+              <div class="col-sm-6 pl-sm-2 statistics-grid">
+                <router-link to="/myCards">
                   <div
                     class="card card_border border-primary-top p-4"
                     routerLink="/myCards"
                   >
-                    <i
+                    <fa
+                      icon="credit-card"
+                      class="fa"
                       style="font-size: 3em; color: #343a40"
-                      class="fa fa-credit-card"
-                    >
-                    </i>
+                    />
                     <h3 class="text-dark number">Cards</h3>
                     <p class="stat-text">View credit card details</p>
                   </div>
-                </div></router-link
-              >
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -85,73 +90,26 @@
 export default {
   name: "DashboardView",
   data() {
-    return {
-      user: {},
-    };
+    return {};
+  },
+  created() {},
+  computed: {
+    user() {
+      const database = JSON.parse(localStorage.getItem("user"));
+      const individual = database.data;
+      return { name: individual.name, role: individual.role };
+    },
   },
 };
 </script>
 <style scoped>
-.sticky-header .main-content {
-  padding-top: 40px;
-}
-
-.container-fluid,
-.container-sm,
-.container-md,
-.container-lg,
-.container-xl {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+a {
+  text-decoration: none;
 }
 
 .content-top-gap {
   margin-top: 60px;
   padding: 20px;
-}
-
-.breadcrumb {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  list-style: none;
-  background-color: #e9ecef;
-  border-radius: 0.25rem;
-}
-
-.breadcrumb-item + .breadcrumb-item {
-  padding-left: 0.5rem;
-}
-.breadcrumb-item + .breadcrumb-item::before {
-  display: inline-block;
-  padding-right: 0.5rem;
-  color: #6c757d;
-  content: "/";
-}
-
-.breadcrumb-item + .breadcrumb-item:hover::before {
-  text-decoration: underline;
-}
-
-.breadcrumb-item + .breadcrumb-item:hover::before {
-  text-decoration: none;
-}
-
-.breadcrumb-item.active {
-  color: #6c757d;
-}
-
-.my-breadcrumb {
-  padding: 0;
-  margin-bottom: 10px;
-  list-style: none;
-  background-color: transparent;
-  border-radius: 0;
-  font-size: 14px;
 }
 
 .welcome-msg {
@@ -164,20 +122,6 @@ export default {
 
 .welcome-msg p {
   font-size: 14px;
-}
-
-.text-primary.transparent-bg {
-  background: rgba(65, 105, 225, 0.1);
-}
-
-.pt-3,
-.py-3 {
-  padding-top: 1rem !important;
-}
-
-.pb-4,
-.py-4 {
-  padding-bottom: 1.5rem !important;
 }
 
 .statistics-grid .fa,
@@ -229,99 +173,6 @@ export default {
 .card > .list-group:last-child .list-group-item:last-child {
   border-bottom-right-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
-}
-
-.card-body {
-  flex: 1 1 auto;
-  min-height: 1px;
-  padding: 1.25rem;
-}
-
-.card-title {
-  margin-bottom: 0.75rem;
-}
-
-.card-subtitle {
-  margin-top: -0.375rem;
-  margin-bottom: 0;
-}
-
-.card-text:last-child {
-  margin-bottom: 0;
-}
-
-.card-link:hover {
-  text-decoration: none;
-}
-
-.card-link + .card-link {
-  margin-left: 1.25rem;
-}
-
-.card-header {
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 0;
-  background-color: rgba(0, 0, 0, 0.03);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-}
-.card-header:first-child {
-  border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
-}
-.card-header + .list-group .list-group-item:first-child {
-  border-top: 0;
-}
-
-.card-footer {
-  padding: 0.75rem 1.25rem;
-  background-color: rgba(0, 0, 0, 0.03);
-  border-top: 1px solid rgba(0, 0, 0, 0.125);
-}
-.card-footer:last-child {
-  border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
-}
-
-.card-header-tabs {
-  margin-right: -0.625rem;
-  margin-bottom: -0.75rem;
-  margin-left: -0.625rem;
-  border-bottom: 0;
-}
-
-.card-header-pills {
-  margin-right: -0.625rem;
-  margin-left: -0.625rem;
-}
-
-.card-img-overlay {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 1.25rem;
-}
-
-.card-img,
-.card-img-top,
-.card-img-bottom {
-  flex-shrink: 0;
-  width: 100%;
-}
-
-.card-img,
-.card-img-top {
-  border-top-left-radius: calc(0.25rem - 1px);
-  border-top-right-radius: calc(0.25rem - 1px);
-}
-
-.card-img,
-.card-img-bottom {
-  border-bottom-right-radius: calc(0.25rem - 1px);
-  border-bottom-left-radius: calc(0.25rem - 1px);
-}
-
-.card-deck .card {
-  margin-bottom: 15px;
 }
 
 .border-primary-top {

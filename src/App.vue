@@ -9,6 +9,11 @@ export default {
   components: {
     Header,
   },
+  created() {
+    const database = JSON.parse(localStorage.getItem("user"));
+    console.log(database);
+    this.$store.dispatch("updateUser", database);
+  },
 };
 </script>
 <style lang="scss">

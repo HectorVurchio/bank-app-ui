@@ -1,5 +1,8 @@
 <template>
   <div class="login">
+    <div v-if="loginError" class="alert alert-danger" role="alert">
+      {{ loginError }}
+    </div>
     <form class="form" @submit="onSubmit">
       <h1>Login</h1>
       <div class="twice p-2">
@@ -42,11 +45,16 @@
 <script>
 /* eslint-disable */
 import { useField, useForm } from "vee-validate";
+import { useStore } from "vuex";
 // eslint-disable-next-line
 import { object, string, number, boolean } from "yup";
-//import { ref } from "vue";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 export default {
   setup() {
+    const store = useStore();
+    const loginError = ref("");
+    const router = useRouter();
     const validationSchema = object({
       email: string().email().required("we need your email").min(4),
       password: string().required("A nice subject must be inserted").min(4),
@@ -54,7 +62,14 @@ export default {
     const { handleSubmit, errors } = useForm({ validationSchema });
 
     const onSubmit = handleSubmit((values) => {
-      console.log("onSubmit", values);
+      store
+        .dispatch("login", values)
+        .then(() => {
+          router.push({ name: "dashboard" });
+        })
+        .catch((err) => {
+          loginError.value = "UNABLE TO CONNECT WITH THE SERVER";
+        });
     });
 
     const { value: email } = useField("email");
@@ -65,6 +80,7 @@ export default {
       email,
       password,
       errors,
+      loginError,
     };
   },
 };
