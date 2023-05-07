@@ -20,7 +20,7 @@ export default createStore({
       localStorage.setItem("user", JSON.stringify(userData));
       axios.defaults.headers.common[
         "Authorization"
-      ] = `Bearer ${userData.headers.authorization}`;
+      ] = `${userData.headers.authorization}`;
     },
     CLEAR_USER_DATA() {
       localStorage.removeItem("user");

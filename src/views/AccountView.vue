@@ -90,33 +90,38 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "AccountView",
   components: {},
   data() {
     return {
-      user: {
-        name: "Hector",
-        email: "hectorvurchio@gmail.com",
-        mobileNumber: "+584124416365",
-      },
-      account: {
-        accountNumber: "05809918663513472019",
-        accountType: "Savings",
-        branchAddress: "Agencia Prebo",
-      },
+      account: {},
     };
   },
-  created() {
-    const database = JSON.parse(localStorage.getItem("user"));
-    console.log(database);
+  props: {
+    id: { type: Number, required: true },
   },
+
   computed: {
-    usery() {
-      const database = JSON.parse(localStorage.getItem("user"));
-      const individual = database.data;
-      return { name: individual.name, role: individual.role };
+    user() {
+      return JSON.parse(localStorage.getItem("user")).data;
     },
+  },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    const user = JSON.parse(localStorage.getItem("user")).data;
+    axios
+      .get("http://localhost:3000/myAccount", { params: { id: user.id } })
+      .then((response) => {
+        // eslint-disable-next-line
+        next((comp) => {
+          comp.account = response.data;
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        next({ name: "NotFound" });
+      });
   },
 };
 </script>

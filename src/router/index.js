@@ -49,10 +49,11 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: "/myAccount",
+    path: "/myAccount?id=:id",
     name: "myAccount",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AccountView.vue"),
+    props: (route) => ({ id: parseInt(route.params.id) }),
     meta: { requiresAuth: true },
   },
   {

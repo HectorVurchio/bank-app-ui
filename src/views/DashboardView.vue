@@ -16,7 +16,9 @@
           <div class="col-xl-6 pr-xl-2">
             <div class="row">
               <div class="col-sm-6 pr-sm-2 statistics-grid">
-                <router-link to="myAccount">
+                <router-link
+                  :to="{ name: 'myAccount', params: { id: user.id } }"
+                >
                   <div class="card card_border border-primary-top p-4">
                     <fa
                       icon="wallet"
@@ -97,7 +99,11 @@ export default {
     user() {
       const database = JSON.parse(localStorage.getItem("user"));
       const individual = database.data;
-      return { name: individual.name, role: individual.role };
+      return {
+        id: individual.id,
+        name: individual.name,
+        role: individual.role,
+      };
     },
   },
 };
