@@ -69,13 +69,29 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "BalanceView",
   data() {
     return {
-      currency: "",
-      transactions: [{}],
+      currency: "$",
+      transactions: [],
     };
+  },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    const user = JSON.parse(localStorage.getItem("user")).data;
+    axios
+      .get("http://localhost:3000/myBalance", { params: { id: user.id } })
+      .then((response) => {
+        // eslint-disable-next-line
+        next((comp) => {
+          comp.transactions = response.data;
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        next({ name: "NotFound" });
+      });
   },
 };
 </script>

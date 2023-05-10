@@ -49,14 +49,35 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "LoansView",
   data() {
     return {
       currOutstandingBalance: "",
-      currency: "",
+      currency: "$",
       loans: [],
     };
+  },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    const user = JSON.parse(localStorage.getItem("user")).data;
+    axios
+      .get("http://localhost:3000/myLoans", { params: { id: user.id } })
+      .then((response) => {
+        // eslint-disable-next-line
+        next((comp) => {
+          comp.loans = response.data;
+          comp.currOutstandingBalance = comp.loans.reduce(
+            (accumulator, currentValue) =>
+              accumulator + currentValue.outstandingAmount,
+            0
+          );
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        next({ name: "NotFound" });
+      });
   },
 };
 </script>

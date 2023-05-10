@@ -51,14 +51,35 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "CardsView",
   data() {
     return {
       currOutstandingAmt: "",
-      currency: "",
+      currency: "$",
       cards: [],
     };
+  },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    const user = JSON.parse(localStorage.getItem("user")).data;
+    axios
+      .get("http://localhost:3000/myCards", { params: { id: user.id } })
+      .then((response) => {
+        // eslint-disable-next-line
+        next((comp) => {
+          comp.cards = response.data;
+          comp.currOutstandingAmt = comp.cards.reduce(
+            (accumulator, currentValue) =>
+              accumulator + currentValue.amountUsed,
+            0
+          );
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        next({ name: "NotFound" });
+      });
   },
 };
 </script>
