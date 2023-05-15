@@ -102,26 +102,36 @@ export default {
   props: {
     id: { type: Number, required: true },
   },
-
   computed: {
     user() {
       return JSON.parse(localStorage.getItem("user")).data;
     },
   },
+  methods: {
+    setAccount(values) {
+      this.$store.dispatch("accountData", values);
+    },
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    const user = JSON.parse(localStorage.getItem("user")).data;
-    axios
-      .get("http://localhost:3000/myAccount", { params: { id: user.id } })
-      .then((response) => {
-        // eslint-disable-next-line
-        next((comp) => {
-          comp.account = response.data;
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        next({ name: "NotFound" });
+    const account = JSON.parse(localStorage.getItem("account"));
+    if (account) {
+      next((comp) => {
+        comp.account = account;
       });
+    } else {
+      next((comp) => {
+        axios
+          .get("http://localhost:3000/myAccount", { params: { id: comp.id } })
+          .then((response) => {
+            comp.account = response.data;
+            comp.setAccount(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+            comp.$router.push({ name: "NotFound" });
+          });
+      });
+    }
   },
 };
 </script>

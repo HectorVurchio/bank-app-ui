@@ -59,25 +59,44 @@ export default {
       loans: [],
     };
   },
+  props: {
+    id: { type: Number, required: true },
+  },
+  methods: {
+    setLoan(values) {
+      this.$store.dispatch("loansData", values);
+    },
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    const user = JSON.parse(localStorage.getItem("user")).data;
-    axios
-      .get("http://localhost:3000/myLoans", { params: { id: user.id } })
-      .then((response) => {
-        // eslint-disable-next-line
-        next((comp) => {
-          comp.loans = response.data;
-          comp.currOutstandingBalance = comp.loans.reduce(
-            (accumulator, currentValue) =>
-              accumulator + currentValue.outstandingAmount,
-            0
-          );
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        next({ name: "NotFound" });
+    const loans = JSON.parse(localStorage.getItem("loans"));
+    if (loans) {
+      next((comp) => {
+        comp.loans = loans;
+        comp.currOutstandingBalance = loans.reduce(
+          (accumulator, currentValue) =>
+            accumulator + currentValue.outstandingAmount,
+          0
+        );
       });
+    } else {
+      next((comp) => {
+        axios
+          .get("http://localhost:3000/myLoans", { params: { id: comp.id } })
+          .then((response) => {
+            comp.loans = response.data;
+            comp.currOutstandingBalance = comp.loans.reduce(
+              (accumulator, currentValue) =>
+                accumulator + currentValue.outstandingAmount,
+              0
+            );
+            comp.setLoan(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+            comp.$router.push({ name: "NotFound" });
+          });
+      });
+    }
   },
 };
 </script>

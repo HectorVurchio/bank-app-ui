@@ -78,20 +78,34 @@ export default {
       transactions: [],
     };
   },
+  props: {
+    id: { type: Number, required: true },
+  },
+  methods: {
+    setTransactions(values) {
+      this.$store.dispatch("balanceData", values);
+    },
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    const user = JSON.parse(localStorage.getItem("user")).data;
-    axios
-      .get("http://localhost:3000/myBalance", { params: { id: user.id } })
-      .then((response) => {
-        // eslint-disable-next-line
-        next((comp) => {
-          comp.transactions = response.data;
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        next({ name: "NotFound" });
+    const transactions = JSON.parse(localStorage.getItem("transactions"));
+    if (transactions) {
+      next((comp) => {
+        comp.transactions = transactions;
       });
+    } else {
+      next((comp) => {
+        axios
+          .get("http://localhost:3000/myBalance", { params: { id: comp.id } })
+          .then((response) => {
+            comp.transactions = response.data;
+            comp.setTransactions(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+            comp.$router.push({ name: "NotFound" });
+          });
+      });
+    }
   },
 };
 </script>

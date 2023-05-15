@@ -49,11 +49,11 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: "/myAccount?id=:id",
+    path: "/myAccount",
     name: "myAccount",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AccountView.vue"),
-    props: (route) => ({ id: parseInt(route.params.id) }),
+    props: (route) => ({ id: parseInt(route.query.id) }),
     meta: { requiresAuth: true },
   },
   {
@@ -61,6 +61,7 @@ const routes = [
     name: "myBalance",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/BalanceView.vue"),
+    props: (route) => ({ id: parseInt(route.query.id) }),
     meta: { requiresAuth: true },
   },
   {
@@ -68,6 +69,7 @@ const routes = [
     name: "myLoans",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/LoansView.vue"),
+    props: (route) => ({ id: parseInt(route.query.id) }),
     meta: { requiresAuth: true },
   },
   {
@@ -75,6 +77,7 @@ const routes = [
     name: "myCards",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/CardsView.vue"),
+    props: (route) => ({ id: parseInt(route.query.id) }),
     meta: { requiresAuth: true },
   },
 ];
@@ -89,6 +92,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
     next("/login");
+    return;
   }
   next();
 });

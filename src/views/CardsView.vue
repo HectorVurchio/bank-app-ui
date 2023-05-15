@@ -61,25 +61,43 @@ export default {
       cards: [],
     };
   },
+  props: {
+    id: { type: Number, required: true },
+  },
+  methods: {
+    setCards(values) {
+      this.$store.dispatch("cardsData", values);
+    },
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    const user = JSON.parse(localStorage.getItem("user")).data;
-    axios
-      .get("http://localhost:3000/myCards", { params: { id: user.id } })
-      .then((response) => {
-        // eslint-disable-next-line
-        next((comp) => {
-          comp.cards = response.data;
-          comp.currOutstandingAmt = comp.cards.reduce(
-            (accumulator, currentValue) =>
-              accumulator + currentValue.amountUsed,
-            0
-          );
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        next({ name: "NotFound" });
+    const cards = JSON.parse(localStorage.getItem("cards"));
+    if (cards) {
+      next((comp) => {
+        comp.cards = cards;
+        comp.currOutstandingAmt = cards.reduce(
+          (accumulator, currentValue) => accumulator + currentValue.amountUsed,
+          0
+        );
       });
+    } else {
+      next((comp) => {
+        axios
+          .get("http://localhost:3000/myCards", { params: { id: comp.id } })
+          .then((response) => {
+            comp.cards = response.data;
+            comp.currOutstandingAmt = comp.cards.reduce(
+              (accumulator, currentValue) =>
+                accumulator + currentValue.amountUsed,
+              0
+            );
+            comp.setCards(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+            comp.$router.push({ name: "NotFound" });
+          });
+      });
+    }
   },
 };
 </script>

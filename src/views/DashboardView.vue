@@ -17,7 +17,7 @@
             <div class="row">
               <div class="col-sm-6 pr-sm-2 statistics-grid">
                 <router-link
-                  :to="{ name: 'myAccount', params: { id: user.id } }"
+                  :to="{ name: 'myAccount', query: { id: user.id } }"
                 >
                   <div class="card card_border border-primary-top p-4">
                     <fa
@@ -33,7 +33,9 @@
               </div>
 
               <div class="col-sm-6 pl-sm-2 statistics-grid">
-                <router-link to="/myBalance">
+                <router-link
+                  :to="{ name: 'myBalance', query: { id: user.id } }"
+                >
                   <div class="card card_border border-primary-top p-4">
                     <fa
                       icon="dollar-sign"
@@ -50,7 +52,7 @@
           <div class="col-xl-6 pl-xl-2">
             <div class="row">
               <div class="col-sm-6 pr-sm-2 statistics-grid">
-                <router-link to="/myLoans">
+                <router-link :to="{ name: 'myLoans', query: { id: user.id } }">
                   <div class="card card_border border-primary-top p-4">
                     <fa
                       icon="money-bill"
@@ -64,7 +66,7 @@
               </div>
 
               <div class="col-sm-6 pl-sm-2 statistics-grid">
-                <router-link to="/myCards">
+                <router-link :to="{ name: 'myCards', query: { id: user.id } }">
                   <div
                     class="card card_border border-primary-top p-4"
                     routerLink="/myCards"
